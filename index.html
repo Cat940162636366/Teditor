@@ -2,60 +2,54 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Editor de personaje .plr</title>
+  <title>Editor de Personaje - Terraria</title>
   <style>
-    body { background: #1a1a1a; color: white; font-family: sans-serif; text-align: center; padding: 40px; }
-    input, button { padding: 10px; margin: 10px; border-radius: 5px; font-size: 16px; }
-    .card { background: #333; padding: 20px; border-radius: 10px; display: inline-block; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #222;
+      color: #fff;
+      text-align: center;
+      padding: 30px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+    .card {
+      background: #333;
+      border-radius: 10px;
+      padding: 20px;
+      display: inline-block;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
-  <h1>Editor de Personaje Terraria (.plr)</h1>
+  <h1>Editor de Personaje - Terraria</h1>
   <div class="card">
-    <input type="file" id="fileInput" accept=".plr"><br>
-    <input type="text" id="newName" placeholder="Nuevo nombre del personaje"><br>
-    <button onclick="modificarNombre()">Modificar y descargar</button>
-    <p id="estado"></p>
+    <label>Nombre del personaje:</label><br>
+    <input id="nameInput" type="text" placeholder="Nombre"><br>
+    
+    <label>Vida máxima:</label><br>
+    <input id="vidaInput" type="number" min="100" max="500" value="100"><br>
+
+    <label>Maná máximo:</label><br>
+    <input id="manaInput" type="number" min="20" max="200" value="20"><br>
+
+    <button onclick="guardarCambios()">Guardar Cambios</button>
+
+    <p id="output"></p>
   </div>
 
   <script>
-    let archivoOriginal = null;
+    function guardarCambios() {
+      const nombre = document.getElementById("nameInput").value;
+      const vida = document.getElementById("vidaInput").value;
+      const mana = document.getElementById("manaInput").value;
 
-    document.getElementById('fileInput').addEventListener('change', (e) => {
-      archivoOriginal = e.target.files[0];
-    });
-
-    function modificarNombre() {
-      if (!archivoOriginal) {
-        document.getElementById('estado').innerText = "Primero sube un archivo .plr";
-        return;
-      }
-
-      const lector = new FileReader();
-      lector.onload = function(e) {
-        const buffer = e.target.result;
-        const data = new Uint8Array(buffer);
-        const nuevoNombre = document.getElementById('newName').value;
-
-        // Reemplaza el nombre en una posición de prueba (ej: offset 20)
-        const nombreBytes = new TextEncoder().encode(nuevoNombre);
-        const offset = 20; // Esto es solo un ejemplo; hay que analizar el formato real
-
-        for (let i = 0; i < nombreBytes.length && (offset + i) < data.length; i++) {
-          data[offset + i] = nombreBytes[i];
-        }
-
-        // Crear nuevo archivo
-        const blob = new Blob([data], { type: 'application/octet-stream' });
-        const enlace = document.createElement('a');
-        enlace.href = URL.createObjectURL(blob);
-        enlace.download = archivoOriginal.name.replace('.plr', '_modificado.plr');
-        enlace.click();
-
-        document.getElementById('estado').innerText = "Archivo modificado y descargado";
-      };
-
-      lector.readAsArrayBuffer(archivoOriginal);
+      document.getElementById("output").innerText =
+        `Guardado: ${nombre} - Vida: ${vida} - Maná: ${mana}`;
     }
   </script>
 </body>
