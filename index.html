@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Editor de Personaje - Terraria</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #222;
+      color: #fff;
+      text-align: center;
+      padding: 30px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+    .card {
+      background: #333;
+      border-radius: 10px;
+      padding: 20px;
+      display: inline-block;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Editor de Personaje - Terraria</h1>
+  <div class="card">
+    <label>Nombre del personaje:</label><br>
+    <input id="nameInput" type="text" placeholder="Nombre"><br>
+    
+    <label>Vida máxima:</label><br>
+    <input id="vidaInput" type="number" min="100" max="500" value="100"><br>
+
+    <label>Maná máximo:</label><br>
+    <input id="manaInput" type="number" min="20" max="200" value="20"><br>
+
+    <button onclick="guardarCambios()">Guardar Cambios</button>
+
+    <p id="output"></p>
+  </div>
+
+  <script>
+    function guardarCambios() {
+      const nombre = document.getElementById("nameInput").value;
+      const vida = document.getElementById("vidaInput").value;
+      const mana = document.getElementById("manaInput").value;
+
+      document.getElementById("output").innerText =
+        `Guardado: ${nombre} - Vida: ${vida} - Maná: ${mana}`;
+    }
+  </script>
+</body>
+</html>
